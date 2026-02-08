@@ -1,0 +1,126 @@
+---
+title: "IMPACTO DE PRÁCTICAS DE AGRICULTURA REGENERATIVA SOBRE LOS INDICADORES FÍSICOS DE CALIDAD DEL SUELO EN EL CULTIVO DE PAPAgit"
+author: "Patricia Carolina Panduro Yauri"
+format:
+  html:
+    toc: true
+    toc-expand: true
+    toc-depth: 4
+    toc-location: left
+    number-sections: true
+    self-contained: true
+    code-fold: true
+    output-file: "ESM"
+editor_options: 
+  chunk_output_type: console
+execute: 
+  warning: false
+  message: false
+  echo: true
+---
+
+# Project Setup
+
+```{r}
+#| label:  setup
+
+source('https://inkaverse.com/setup.r')
+```
+
+# Data import
+
+```{r}
+gs <- "https://docs.google.com/spreadsheets/d/1p0N8aZ7jNSVzXFjGelh_HPz6LX2G3pkhlJq1vGAq8bw/edit?gid=1226777016#gid=1226777016" %>% 
+  as_sheets_id()
+
+fb <- gs %>% 
+  range_read(ss = .,sheet = "fb")
+```
+
+
+# Análisis de datos
+
+1. Hacer mi diseño experimental
+2. Colectar mis datos
+3. Importar los datos
+4. Identificar el modelo estadistico
+5. Analisis de Variancia (ANOVA o ANVA)
+6. Prueba de comparación de medias
+7. Graficar
+
+
+#Estabilidad de agregados
+
+$$aggregates = \mu + tillage + mo + tillage*mo + bloque + e$$
+## anova
+
+```{r}
+str(fb)
+
+md <- aov(formula = aggregates ~ block + tillage + mo + tillage*mo, data = fb)
+anova(md)
+```
+
+
+utilizando el objeto md hacer la comparación de medias de tillage por mo usando el paquete emmeans e incluir la letras de significancia. Considera que la combinación minimun_tillage con chemical fertilizer no existe. Presenta todo en un solo objeto llamado: ok.
+
+```{r}
+library(emmeans)
+ok <- emmeans(md, ~ tillage | mo) %>% 
+  multcomp::cld(Letters = letters) %>% 
+  filter(!(tillage == "minimun_tillage" & mo == "chemical fertilizer"))
+```
+
+
+## gráfico
+
+utilizando el objeto ok hacer un gráfico de barras usando ggplot2 donde en el eje x mo esté agrupado por cada tillage e incluir la significancia con su error estándar. Para el nivel de mo, level_M1 ponerlo de azul, level_M2 de amarillo, level_M3 de rojo y chemical fertilizer de verde. En el eje y poner el título de Estabilidad de agregados.No coloques en el eje x chemical fertilizer en minimun_tillage porque no existe esa combinación.
+
+```{r}
+library(ggplot2)
+ggplot(ok, aes(x = mo, y = emmean, fill = mo)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.2) +
+  geom_text(aes(label = .group), vjust = -0.5) +
+  facet_wrap(~ tillage, scales = "free_x") +
+  scale_fill_manual(values = c("level_M1" = "blue", "level_M2" = "yellow", "level_M3" = "red", "chemical fertilizer" = "green")) +
+  labs(y = "Estabilidad de agregados") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+#Densidad aparente por terrón
+$$da_clod = \mu + tillage + mo + tillage*mo + bloque + e$$
+
+## anova
+
+```{r}
+dat <- aov(formula = da_clod ~ block + tillage + mo + tillage*mo, data = fb)
+anova(dat)
+```
+
+
+utilizando el objeto dat hacer la comparación de medias de tillage por mo usando el paquete emmeans e incluir la letras de significancia. Considera que la combinación minimun_tillage con chemical fertilizer no existe. Presenta todo en un solo objeto llamado: oc.
+
+```{r}
+oc <- emmeans(dat, ~ tillage | mo) %>% 
+  multcomp::cld(Letters = letters) %>% 
+  filter(!(tillage == "minimun_tillage" & mo == "chemical fertilizer"))
+```
+
+
+## gráfico
+
+utilizando el objeto oc hacer un gráfico de barras usando ggplot2 donde en el eje x mo esté agrupado por cada tillage e incluir la significancia con su error estándar. Para el nivel de mo, level_M1 ponerlo de azul, level_M2 de amarillo, level_M3 de rojo y chemical fertilizer de verde. En el eje y poner el título de Estabilidad de agregados.No coloques en el eje x chemical fertilizer en minimun_tillage porque no existe esa combinación.
+
+```{r}
+ggplot(oc, aes(x = mo, y = emmean, fill = mo)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.2) +
+  geom_text(aes(label = .group), vjust = -0.5) +
+  facet_wrap(~ tillage, scales = "free_x") +
+  scale_fill_manual(values = c("level_M1" = "blue", "level_M2" = "yellow", "level_M3" = "red", "chemical fertilizer" = "green")) +
+  labs(y = "Densidad aparente por terrón") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
