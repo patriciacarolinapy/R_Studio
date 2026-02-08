@@ -1,0 +1,27 @@
+{
+    "id": "D5EF8E60",
+    "path": "~/R_Studio/Base de datos/analysis.qmd",
+    "project_path": "analysis.qmd",
+    "type": "quarto_markdown",
+    "hash": "4238839683",
+    "contents": "",
+    "dirty": false,
+    "created": 1769560934201.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "chunk_output_type": "console",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "32,112",
+        "scrollLine": "22"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1770510167,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1770510167143,
+    "read_only": false,
+    "read_only_alternatives": []
+}
