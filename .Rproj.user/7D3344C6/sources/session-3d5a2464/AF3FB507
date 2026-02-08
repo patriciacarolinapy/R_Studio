@@ -1,27 +1,27 @@
 {
-    "id": "58C26D40",
-    "path": "~/R_Studio/analysis.qmd",
-    "project_path": "analysis.qmd",
+    "id": "AF3FB507",
+    "path": "D:/Descargas/analysis.qmd",
+    "project_path": null,
     "type": "quarto_markdown",
-    "hash": "4238839683",
+    "hash": "0",
     "contents": "",
-    "dirty": false,
-    "created": 1770509293335.0,
+    "dirty": true,
+    "created": 1770518681269.0,
     "source_on_save": false,
-    "relative_order": 2,
+    "relative_order": 4,
     "properties": {
         "chunk_output_type": "console",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "32,50",
-        "scrollLine": "0"
+        "cursorPosition": "79,3",
+        "scrollLine": "56"
     },
     "folds": "",
-    "lastKnownWriteTime": 1770509956,
+    "lastKnownWriteTime": 1770518677,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1770509956684,
+    "last_content_update": 1770571892002,
     "read_only": false,
     "read_only_alternatives": []
 }
